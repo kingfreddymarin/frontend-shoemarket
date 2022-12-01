@@ -1,10 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from "primereact/button";
 
 
-const Product = ({ closeModal, data }) => {
+const Product = ({ closeModal, data, cart, setCart }) => {
+   const [newCart, setNewCart] = useState([])
 
+   const addToCart = () => {
+      const item = {
+         id: new Date().getTime().toString(),
+         idProduct: data.id,
+         name: data.name,
+         description: data.description,
+         imagen: data.imagen,
+         quantity: 1,
+         display: data.display,
+         price: data.price
+      }
+      console.log(item)
+      setNewCart(...cart, item)
 
+      localStorage.setItem("cart", JSON.stringify(newCart))
+   }
    return (
       <>
          <a id="jump"></a>
@@ -26,6 +42,7 @@ const Product = ({ closeModal, data }) => {
                         icon="pi pi-shopping-cart"
                         label="Add to Cart"
                         disabled={data.quantity == 0}
+                        onClick={() => addToCart()}
                      ></Button>
                   </div>
                </section>

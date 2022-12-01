@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"; //Dispatch para realizar acciones, selecter para leer de nuestro store
+// import { Link } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux"; //Dispatch para realizar acciones, selecter para leer de nuestro store
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
-import { Button } from "primereact/button";
+// import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { ProductService } from "./service/ProductService";
-import { Rating } from "primereact/rating";
-import { cartActions } from "../store"; //Importamos las acciones
+// import { Rating } from "primereact/rating";
+// import { cartActions } from "../store"; //Importamos las acciones
 import "../styles/DataViewDemo.css";
 import Product from "./Product";
 import Header from "./Header";
+
+const getLocalStorage = () => {
+  let cart = localStorage.getItem("cart");
+  if (cart) {
+    return JSON.parse(localStorage.getItem("cart"));
+  } else {
+    return [];
+  }
+};
 
 const Home = () => {
   const [products, setProducts] = useState(null);
@@ -19,19 +28,20 @@ const Home = () => {
   const [sortField, setSortField] = useState(null);
   const [show, setShow] = useState(false);
   const [current, setCurrent] = useState(null);
+  const [cart, setCart] = useState(getLocalStorage());
 
   //-----------------Ejemplo Redux-------------------------
-  const dispatch = useDispatch(); //Inicializamos el hook
-  dispatch(
-    cartActions.addProduct({
-      id: "24323",
-      quantity: 1,
-      name: "Airforce One",
-      image: "airforce.jpg",
-    })
-  );
+  // const dispatch = useDispatch(); //Inicializamos el hook
+  // dispatch(
+  //   cartActions.addProduct({
+  //     id: "24323",
+  //     quantity: 1,
+  //     name: "Airforce One",
+  //     image: "airforce.jpg",
+  //   })
+  // );
 
-  const itemCarritos = useSelector((state) => state.cart.totalItems);
+  // const itemCarritos = useSelector((state) => state.cart.totalItems);
 
   const sortOptions = [
     { label: "De alto a bajo precio", value: "!price" },
@@ -42,7 +52,9 @@ const Home = () => {
 
   useEffect(() => {
     productService.getAll().then((data) => setProducts(data));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(cart);
+  }, [cart]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSortChange = (event) => {
     const value = event.value;
@@ -175,9 +187,17 @@ const Home = () => {
   const header = renderHeader();
   return (
     <div className="dataview-demo">
-      <Header />
+      <Header cart={cart} />
       <div className="card">
-        {show && <Product id="prdct" closeModal={setShow} data={current} />}
+        {show && (
+          <Product
+            id="prdct"
+            closeModal={setShow}
+            data={current}
+            cart={cart}
+            setCart={setCart}
+          />
+        )}
         {!show && (
           <>
             <DataView

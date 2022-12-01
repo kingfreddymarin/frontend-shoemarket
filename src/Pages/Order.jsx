@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 
 const Order = ({ setToggleOrder }) => {
-   const [cart, setCart] = useState([]);
+
    return (
       <div className='order-container'>
          <div className='top'>
