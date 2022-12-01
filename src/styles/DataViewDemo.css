@@ -54,6 +54,11 @@
   width: 100%;
   text-align: center;
 }
+.order-body {
+  height: 100%;
+  gap: 1em;
+  display: flex;
+}
 .hov:hover {
   cursor: pointer;
 }

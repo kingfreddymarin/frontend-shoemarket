@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa'
 import Order from './Order'
 
-const Header = () => {
+const Header = ({ cart }) => {
    const [toggleOrder, setToggleOrder] = useState(false);
 
    return (
       <>
-         {toggleOrder && <Order toggleOrder={toggleOrder} setToggleOrder={setToggleOrder} />}
+         {toggleOrder && <Order toggleOrder={toggleOrder} setToggleOrder={setToggleOrder} cart={cart} />}
          {!toggleOrder && (
             <div className='header-container'>
                <div className='logo-container'>
