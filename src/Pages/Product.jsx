@@ -17,9 +17,7 @@ const Product = ({ closeModal, data, cart, setCart }) => {
          price: data.price
       }
       console.log(item)
-      setNewCart(...cart, item)
-
-      localStorage.setItem("cart", JSON.stringify(newCart))
+      setCart([...cart, item])
    }
    return (
       <>
