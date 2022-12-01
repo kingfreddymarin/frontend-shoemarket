@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"; //Dispatch para realizar acciones, selecter para leer de nuestro store
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { ProductService } from "./service/ProductService";
 import { Rating } from "primereact/rating";
+import { cartActions } from "../store"; //Importamos las acciones
 import "../styles/DataViewDemo.css";
 import Product from "./Product";
 
@@ -16,6 +18,18 @@ const Home = () => {
   const [sortField, setSortField] = useState(null);
   const [show, setShow] = useState(false);
   const [current, setCurrent] = useState(null);
+
+  //-----------------Ejemplo Redux-------------------------
+  const dispatch = useDispatch(); //Inicializamos el hook
+  dispatch(cartActions.addProduct({
+    id: '24323',
+    quantity: 1,
+    name: 'Airforce One',
+    image: 'airforce.jpg'
+  }));
+
+  const itemCarritos = useSelector(state => state.cart.totalItems);
+
 
   const sortOptions = [
     { label: "Price High to Low", value: "!price" },
