@@ -9,6 +9,7 @@ import { Rating } from "primereact/rating";
 import { cartActions } from "../store"; //Importamos las acciones
 import "../styles/DataViewDemo.css";
 import Product from "./Product";
+import Header from "./Header";
 
 const Home = () => {
   const [products, setProducts] = useState(null);
@@ -21,19 +22,20 @@ const Home = () => {
 
   //-----------------Ejemplo Redux-------------------------
   const dispatch = useDispatch(); //Inicializamos el hook
-  dispatch(cartActions.addProduct({
-    id: '24323',
-    quantity: 1,
-    name: 'Airforce One',
-    image: 'airforce.jpg'
-  }));
+  dispatch(
+    cartActions.addProduct({
+      id: "24323",
+      quantity: 1,
+      name: "Airforce One",
+      image: "airforce.jpg",
+    })
+  );
 
-  const itemCarritos = useSelector(state => state.cart.totalItems);
-
+  const itemCarritos = useSelector((state) => state.cart.totalItems);
 
   const sortOptions = [
-    { label: "Price High to Low", value: "!price" },
-    { label: "Price Low to High", value: "price" },
+    { label: "De alto a bajo precio", value: "!price" },
+    { label: "De bajo a alto precio", value: "price" },
   ];
 
   const productService = new ProductService();
@@ -63,9 +65,9 @@ const Home = () => {
           onClick={() => {
             setShow(true);
             setCurrent(data);
-            navigator.userAgent.match(/Chrome|AppleWebKit/)
-              ? (window.location.href = "#jump")
-              : (window.location.hash = "jump");
+            // navigator.userAgent.match(/Chrome|AppleWebKit/)
+            //   ? (window.location.href = "#jump")
+            //   : (window.location.hash = "jump");
           }}
           className="col-12 hov"
         >
@@ -86,11 +88,6 @@ const Home = () => {
             </div>
             <div className="product-list-action">
               <span className="product-price">${data.price}</span>
-              <Button
-                icon="pi pi-shopping-cart"
-                label="Add to Cart"
-                disabled={data.inventoryStatus === "OUTOFSTOCK"}
-              ></Button>
 
               {/* <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span> */}
             </div>
@@ -108,9 +105,9 @@ const Home = () => {
           onClick={() => {
             setShow(true);
             setCurrent(data);
-            navigator.userAgent.match(/Chrome|AppleWebKit/)
-              ? (window.location.href = "#jump")
-              : (window.location.hash = "jump");
+            // navigator.userAgent.match(/Chrome|AppleWebKit/)
+            //   ? (window.location.href = "#jump")
+            //   : (window.location.hash = "jump");
           }}
         >
           <div className="product-grid-item card">
@@ -137,11 +134,6 @@ const Home = () => {
               ) : (
                 <span className="product-price">$0.00 </span>
               )}
-              <Button
-                icon="pi pi-shopping-cart"
-                label="Add to Cart"
-                disabled={data.quantity == 0}
-              ></Button>
             </div>
           </div>
         </div>
@@ -166,7 +158,7 @@ const Home = () => {
             options={sortOptions}
             value={sortKey}
             optionLabel="label"
-            placeholder="Sort By Price"
+            placeholder="Ordenar por precio"
             onChange={onSortChange}
           />
         </div>
@@ -183,21 +175,23 @@ const Home = () => {
   const header = renderHeader();
   return (
     <div className="dataview-demo">
+      <Header />
       <div className="card">
         {show && <Product id="prdct" closeModal={setShow} data={current} />}
         {!show && (
-          <DataView
-            value={products}
-            layout={layout}
-            header={header}
-            itemTemplate={itemTemplate}
-            paginator
-            rows={9}
-            sortOrder={sortOrder}
-            sortField={sortField}
-          />
+          <>
+            <DataView
+              value={products}
+              layout={layout}
+              header={header}
+              itemTemplate={itemTemplate}
+              paginator
+              rows={9}
+              sortOrder={sortOrder}
+              sortField={sortField}
+            />
+          </>
         )}
-
         {/* <Link to={`/product/${products.product.id}`}>More Details</Link> */}
       </div>
     </div>
