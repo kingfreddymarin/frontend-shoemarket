@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { Splitter, SplitterPanel } from "primereact/splitter";
 import { InputText } from "primereact/inputtext";
 import Header from "../SharedComponents/Header";
+import { OrderService } from "../service/OrderService";
 import { cartActions } from "../../store";
 
 const Checkout = () => {
@@ -37,9 +38,11 @@ const Checkout = () => {
   );
 
   const payHandler = () => {
+    const orderService = new OrderService();
+    // orderService.save(dataToSend)
     //Cosas que hacer
-    //hacer un npm install ya que agregue nuevas dependecias - done
-    //Agregar un este handler al btn de pagar
+    //DONE - hacer un npm install ya que agregue nuevas dependecias - done
+    //DONE - Agregar un este handler al btn de pagar
     //Realizar un post a order/save
     //Para eso creo que hay que mandar un post a client/save
     //Enviar correo al comprador con los detalles de la orden con EmailJs - https://www.emailjs.com/docs/examples/reactjs/ - Tenes que crear una cuenta - Sino le entendes ver tutorial
@@ -57,7 +60,7 @@ const Checkout = () => {
     axios.post("http://localhost:8181/api/order/save");
 
     //Reseteando carrito
-    dispatch(cartActions.reset());
+    // dispatch(cartActions.reset());
   };
 
   return (
@@ -185,7 +188,12 @@ const Checkout = () => {
               />
               <label htmlFor="cvc">CVC</label>
             </span>
-            <Button label="Pagar" icon="pi pi-check" iconPos="right" />
+            <Button
+              onClick={payHandler}
+              label="Pagar"
+              icon="pi pi-check"
+              iconPos="right"
+            />
           </div>
         </SplitterPanel>
       </Splitter>

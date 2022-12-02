@@ -23,36 +23,46 @@ const Product = ({ closeModal, data }) => {
 
    return (
       <>
-         <a id="jump"></a>
          <div className='ml-5 product-container'>
-            <button className='x px-1 mt-2' onClick={() => closeModal(false)}>X</button>
-            <section className='d-flex p-5'>
-               <section >
-                  <div className='w-50 mw400' >
-                     <h1>{data.name}</h1>
-                     <img
-                        height={"500"}
-                        src={`Imagen/${data.imagen}`}
-                /*onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'}*/ alt={
-                           data.name
-                        }
-                     />
-                     <h5>${data.price}</h5>
-                     <Button
-                        icon="pi pi-shopping-cart"
-                        label="Añadir al carrito"
-                        disabled={data.quantity == 0}
-                        onClick={addToCartHandler}
-                     ></Button>
+            <button className='x  mt-2' onClick={() => closeModal(false)}><i className="fa-solid fa-xmark"></i></button>
+            <div className="container">
+               <div className="col-lg-8 border p-3 main-section bg-white">
+                  <div className="row m-0">
+                     <div className="col-lg-4 left-side-product-box pb-3">
+                        <img src={`Imagen/${data.imagen}`} className="border p-3" />
+                        <span className="sub-img" />
+                        <span />
+                     </div>
+                     <div className="col-lg-8">
+                        <div className="right-side-pro-detail border p-3 m-0">
+                           <div className="row">
+                              <div className="col-lg-12">
+                                 <p className="m-0 p-0">{data.name}</p>
+                              </div>
+                              <div className="col-lg-12">
+                                 <p className="m-0 p-0 price-pro">${data.price}</p>
+                                 <hr className="p-0 m-0" />
+                              </div>
+                              <div className="col-lg-12 pt-2">
+                                 <h5>Product Detail</h5>
+                                 <span>{data.description}</span>
+                                 <hr className="m-0 pt-2 mt-2" />
+                              </div>
+                              <div className="col-lg-12 mt-3">
+                                 <div className="row">
+                                    <div className="col-lg-6 pb-2">
+                                       <a href="#" onClick={addToCartHandler} className="btn btn-dark w-100">Add To Cart</a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
-               </section>
-               <div className='w50 ml-6 mt-6' >
-                  <p>{data.description}</p>
                </div>
-            </section>
+            </div >
          </div>
       </>
-
    );
 }
 
