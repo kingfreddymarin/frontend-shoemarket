@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { cartActions } from '../store';
 import { Button } from "primereact/button";
 
 
-const Product = ({ closeModal, data, cart, setCart }) => {
-   const [newCart, setNewCart] = useState([])
+const Product = ({ closeModal, data }) => {
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   console.log(data);
 
-   const addToCart = () => {
-      const item = {
-         id: new Date().getTime().toString(),
-         idProduct: data.id,
-         name: data.name,
-         description: data.description,
-         imagen: data.imagen,
+   const addToCartHandler = () => {
+      dispatch(cartActions.addProduct({
+         id: data.id,
          quantity: 1,
-         display: data.display,
-         price: data.price
-      }
-      console.log(item)
-      setCart([...cart, item])
+         name: data.name,
+         image: data.imagen,
+         precio: data.price
+      }));
+      navigate('/cart')
    }
+
    return (
       <>
          <a id="jump"></a>
@@ -38,9 +40,9 @@ const Product = ({ closeModal, data, cart, setCart }) => {
                      <h5>${data.price}</h5>
                      <Button
                         icon="pi pi-shopping-cart"
-                        label="Add to Cart"
+                        label="Añadir al carrito"
                         disabled={data.quantity == 0}
-                        onClick={() => addToCart()}
+                        onClick={addToCartHandler}
                      ></Button>
                   </div>
                </section>

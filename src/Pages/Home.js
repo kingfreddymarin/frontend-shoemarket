@@ -5,8 +5,13 @@ import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 // import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { ProductService } from "./service/ProductService";
+<<<<<<< HEAD
 // import { Rating } from "primereact/rating";
 // import { cartActions } from "../store"; //Importamos las acciones
+=======
+import Header from "./SharedComponents/Header";
+import { cartActions } from "../store"; //Importamos las acciones
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
 import "../styles/DataViewDemo.css";
 import Product from "./Product";
 import Header from "./Header";
@@ -41,7 +46,11 @@ const Home = () => {
   //   })
   // );
 
+<<<<<<< HEAD
   // const itemCarritos = useSelector((state) => state.cart.totalItems);
+=======
+  const itemCarritos = useSelector((state) => state.cart.totalItems);
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
 
   const sortOptions = [
     { label: "De alto a bajo precio", value: "!price" },
@@ -77,9 +86,12 @@ const Home = () => {
           onClick={() => {
             setShow(true);
             setCurrent(data);
+<<<<<<< HEAD
             // navigator.userAgent.match(/Chrome|AppleWebKit/)
             //   ? (window.location.href = "#jump")
             //   : (window.location.hash = "jump");
+=======
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
           }}
           className="col-12 hov"
         >
@@ -100,6 +112,17 @@ const Home = () => {
             </div>
             <div className="product-list-action">
               <span className="product-price">${data.price}</span>
+<<<<<<< HEAD
+=======
+              <Button
+                label="Detalles"
+                disabled={data.inventoryStatus === "OUTOFSTOCK"}
+                onClick={() => {
+                  setShow(true);
+                  setCurrent(data);
+                }}
+              ></Button>
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
 
               {/* <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span> */}
             </div>
@@ -117,9 +140,12 @@ const Home = () => {
           onClick={() => {
             setShow(true);
             setCurrent(data);
+<<<<<<< HEAD
             // navigator.userAgent.match(/Chrome|AppleWebKit/)
             //   ? (window.location.href = "#jump")
             //   : (window.location.hash = "jump");
+=======
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
           }}
         >
           <div className="product-grid-item card">
@@ -146,6 +172,17 @@ const Home = () => {
               ) : (
                 <span className="product-price">$0.00 </span>
               )}
+<<<<<<< HEAD
+=======
+              <Button
+                label="Detalles"
+                disabled={data.quantity == 0}
+                onClick={() => {
+                  setShow(true);
+                  setCurrent(data);
+                }}
+              ></Button>
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
             </div>
           </div>
         </div>
@@ -186,6 +223,7 @@ const Home = () => {
 
   const header = renderHeader();
   return (
+<<<<<<< HEAD
     <div className="dataview-demo">
       <Header cart={cart} />
       <div className="card">
@@ -200,6 +238,14 @@ const Home = () => {
         )}
         {!show && (
           <>
+=======
+    <>
+      <Header />
+      <div className="dataview-demo">
+        <div className="card">
+          {show && <Product id="prdct" closeModal={setShow} data={current} />}
+          {!show && (
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
             <DataView
               value={products}
               layout={layout}
@@ -210,11 +256,18 @@ const Home = () => {
               sortOrder={sortOrder}
               sortField={sortField}
             />
+<<<<<<< HEAD
           </>
         )}
         {/* <Link to={`/product/${products.product.id}`}>More Details</Link> */}
+=======
+          )}
+
+          {/* <Link to={`/product/${products.product.id}`}>More Details</Link> */}
+        </div>
+>>>>>>> db249ca01c36d972a65f5d351b76f9a4ec2d56c2
       </div>
-    </div>
+    </>
   );
 };
 
