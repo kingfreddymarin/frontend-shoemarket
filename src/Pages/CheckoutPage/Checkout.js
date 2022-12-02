@@ -38,10 +38,11 @@ const Checkout = () => {
 
   const payHandler = () => {
     //Cosas que hacer
+    //hacer un npm install ya que agregue nuevas dependecias
     //Agregar un este handler al btn de pagar
     //Realizar un post a order/save
     //Para eso creo que hay que mandar un post a client/save
-    //Enviar correo al comprador con los detalles de la orden con EmailJs 
+    //Enviar correo al comprador con los detalles de la orden con EmailJs - https://www.emailjs.com/docs/examples/reactjs/ - Tenes que crear una cuenta - Sino le entendes ver tutorial
     //navegar al home
     //reiniciar el carrito y totalItems en redux
 
