@@ -5,7 +5,7 @@ import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { ProductService } from "./service/ProductService";
-import { Rating } from "primereact/rating";
+import Header from "./SharedComponents/Header";
 import { cartActions } from "../store"; //Importamos las acciones
 import "../styles/DataViewDemo.css";
 import Product from "./Product";
@@ -20,16 +20,17 @@ const Home = () => {
   const [current, setCurrent] = useState(null);
 
   //-----------------Ejemplo Redux-------------------------
-  const dispatch = useDispatch(); //Inicializamos el hook
-  dispatch(cartActions.addProduct({
-    id: '24323',
-    quantity: 1,
-    name: 'Airforce One',
-    image: 'airforce.jpg'
-  }));
+  // const dispatch = useDispatch(); //Inicializamos el hook
+  // dispatch(
+  //   cartActions.addProduct({
+  //     id: "24323",
+  //     quantity: 1,
+  //     name: "Airforce One",
+  //     image: "airforce.jpg",
+  //   })
+  // );
 
-  const itemCarritos = useSelector(state => state.cart.totalItems);
-
+  const itemCarritos = useSelector((state) => state.cart.totalItems);
 
   const sortOptions = [
     { label: "Price High to Low", value: "!price" },
@@ -63,9 +64,6 @@ const Home = () => {
           onClick={() => {
             setShow(true);
             setCurrent(data);
-            navigator.userAgent.match(/Chrome|AppleWebKit/)
-              ? (window.location.href = "#jump")
-              : (window.location.hash = "jump");
           }}
           className="col-12 hov"
         >
@@ -87,9 +85,12 @@ const Home = () => {
             <div className="product-list-action">
               <span className="product-price">${data.price}</span>
               <Button
-                icon="pi pi-shopping-cart"
-                label="Add to Cart"
+                label="Detalles"
                 disabled={data.inventoryStatus === "OUTOFSTOCK"}
+                onClick={() => {
+                  setShow(true);
+                  setCurrent(data);
+                }}
               ></Button>
 
               {/* <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span> */}
@@ -108,9 +109,6 @@ const Home = () => {
           onClick={() => {
             setShow(true);
             setCurrent(data);
-            navigator.userAgent.match(/Chrome|AppleWebKit/)
-              ? (window.location.href = "#jump")
-              : (window.location.hash = "jump");
           }}
         >
           <div className="product-grid-item card">
@@ -138,9 +136,12 @@ const Home = () => {
                 <span className="product-price">$0.00 </span>
               )}
               <Button
-                icon="pi pi-shopping-cart"
-                label="Add to Cart"
+                label="Detalles"
                 disabled={data.quantity == 0}
+                onClick={() => {
+                  setShow(true);
+                  setCurrent(data);
+                }}
               ></Button>
             </div>
           </div>
@@ -182,25 +183,28 @@ const Home = () => {
 
   const header = renderHeader();
   return (
-    <div className="dataview-demo">
-      <div className="card">
-        {show && <Product id="prdct" closeModal={setShow} data={current} />}
-        {!show && (
-          <DataView
-            value={products}
-            layout={layout}
-            header={header}
-            itemTemplate={itemTemplate}
-            paginator
-            rows={9}
-            sortOrder={sortOrder}
-            sortField={sortField}
-          />
-        )}
+    <>
+      <Header />
+      <div className="dataview-demo">
+        <div className="card">
+          {show && <Product id="prdct" closeModal={setShow} data={current} />}
+          {!show && (
+            <DataView
+              value={products}
+              layout={layout}
+              header={header}
+              itemTemplate={itemTemplate}
+              paginator
+              rows={9}
+              sortOrder={sortOrder}
+              sortField={sortField}
+            />
+          )}
 
-        {/* <Link to={`/product/${products.product.id}`}>More Details</Link> */}
+          {/* <Link to={`/product/${products.product.id}`}>More Details</Link> */}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

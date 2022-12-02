@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { cartActions } from '../store';
 import { Button } from "primereact/button";
 
 
 const Product = ({ closeModal, data }) => {
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   console.log(data);
 
+   const addToCartHandler = () => {
+      dispatch(cartActions.addProduct({
+         id: data.id,
+         quantity: 1,
+         name: data.name,
+         image: data.imagen,
+         precio: data.price
+      }));
+      navigate('/cart')
+   }
 
    return (
       <>
@@ -24,8 +40,9 @@ const Product = ({ closeModal, data }) => {
                      <h5>${data.price}</h5>
                      <Button
                         icon="pi pi-shopping-cart"
-                        label="Add to Cart"
+                        label="Añadir al carrito"
                         disabled={data.quantity == 0}
+                        onClick={addToCartHandler}
                      ></Button>
                   </div>
                </section>
