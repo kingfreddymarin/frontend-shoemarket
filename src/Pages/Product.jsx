@@ -32,7 +32,7 @@ const Product = ({ closeModal, data, cart, setCart }) => {
    return (
       <>
          <div className='ml-5 product-container'>
-            <button className='x  mt-2' onClick={() => closeModal(false)}>X</button>
+            <button className='x  mt-2' onClick={() => closeModal(false)}><i className="fa-solid fa-xmark"></i></button>
             <div className="container">
                <div className="col-lg-8 border p-3 main-section bg-white">
                   <div className="row m-0">
