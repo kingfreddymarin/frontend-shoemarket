@@ -13,7 +13,13 @@ const Order = ({ setToggleOrder, cart }) => {
          </div>
          <div className="order-body">
             {cart.map((item) => {
-               return <h1>Item {item.id}</h1>
+               return (
+                  <div key={item.id} className='order-items'>
+                     <h1 > {item.name}</h1>
+                     <img className="item-image" src={`Imagen/${item.imagen}`} alt={item.name} />
+                     <p>{item.quantity}</p>
+                  </div>
+               )
             })}
          </div>
       </div>

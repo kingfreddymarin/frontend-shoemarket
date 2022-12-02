@@ -1,3 +1,58 @@
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  background-color: #f5f5f5;
+}
+
+.hedding {
+  font-size: 20px;
+  color: #818dab;
+}
+
+.main-section {
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, 5%);
+}
+
+.left-side-product-box img {
+  width: 100%;
+}
+
+.left-side-product-box .sub-img img {
+  margin-top: 5px;
+  width: 83px;
+  height: 100px;
+}
+
+.right-side-pro-detail span {
+  font-size: 15px;
+}
+
+.right-side-pro-detail p {
+  font-size: 25px;
+  color: #a1a1a1;
+}
+
+.right-side-pro-detail .price-pro {
+  color: #4159e4;
+}
+
+.right-side-pro-detail .tag-section {
+  font-size: 18px;
+  color: #46525d;
+}
+
+.pro-box-section .pro-box img {
+  width: 100%;
+  height: 200px;
+}
+
+@media (min-width: 360px) and (max-width: 640px) {
+  .pro-box-section .pro-box img {
+    height: auto;
+  }
+}
 .x {
   border: none;
   background-color: rgb(255, 255, 255, 0);
@@ -32,7 +87,7 @@
 }
 .order-container {
   padding: 1em;
-  height: 16em;
+  height: 18em;
 }
 .categories-container a:hover {
   color: rgb(51, 51, 51);
@@ -58,6 +113,10 @@
   height: 100%;
   gap: 1em;
   display: flex;
+}
+.item-image {
+  height: 60%;
+  object-fit: cover;
 }
 .hov:hover {
   cursor: pointer;
