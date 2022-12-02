@@ -13,36 +13,40 @@ const initialState = { cart: [], totalItems: 0 };
 */
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState: initialState,
   reducers: {
     addProduct(state, action) {
       const idNewEntrie = action.payload.id;
       const itemCart = state.cart.find((item, idx) => idNewEntrie === item.id);
-      if(itemCart){
-        const itemUpdated = {...itemCart};
-        const filterArray = state.cart.filter((item, idx) => item.id !== itemCart.id );
+      if (itemCart) {
+        const itemUpdated = { ...itemCart };
+        const filterArray = state.cart.filter(
+          (item, idx) => item.id !== itemCart.id
+        );
         itemUpdated.quantity++;
-        itemUpdated.total+=itemUpdated.precio;
+        itemUpdated.total += itemUpdated.precio;
         filterArray.push(itemUpdated);
-        state.cart = [...filterArray]
-      }else{
-        const item = {...action.payload};
+        state.cart = [...filterArray];
+      } else {
+        const item = { ...action.payload };
         item.total = item.precio;
         state.cart.push(item);
         state.totalItems++;
       }
     },
-    deleteProduct(state, action){ //Se tiene que enviar el id del producto como payload
-      const filterArray = state.cart.filter((item, idx) => item.id !== action.payload );
+    deleteProduct(state, action) {
+      //Se tiene que enviar el id del producto como payload
+      const filterArray = state.cart.filter(
+        (item, idx) => item.id !== action.payload
+      );
       state.cart = filterArray;
       state.totalItems--;
     },
-    reset(){
-      state.cart = [],
-      state.totalItems = 0
-    }
-  }
+    reset(state) {
+      (state.cart = []), (state.totalItems = 0);
+    },
+  },
 });
 
 export default cartSlice;

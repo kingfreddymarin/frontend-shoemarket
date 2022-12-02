@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { Divider } from 'primereact/divider';
-import { Button } from 'primereact/button';
+import { Divider } from "primereact/divider";
+import { Button } from "primereact/button";
 import { Splitter, SplitterPanel } from "primereact/splitter";
 import { InputText } from "primereact/inputtext";
 import Header from "../SharedComponents/Header";
@@ -17,10 +17,10 @@ const Checkout = () => {
   const [departamento, setDepartamento] = useState("");
   const [codigoPostal, setCodigoPostal] = useState("");
 
-  const [titular, setTitular] = useState('');
-  const [numTarjeta, setNumTarjeta] = useState('');
-  const [expiracion, setExpiracion] = useState('');
-  const [cvc, setCvc] = useState('');
+  const [titular, setTitular] = useState("");
+  const [numTarjeta, setNumTarjeta] = useState("");
+  const [expiracion, setExpiracion] = useState("");
+  const [cvc, setCvc] = useState("");
 
   const formatCurrency = (value) => {
     return value.toLocaleString("en-US", {
@@ -38,7 +38,7 @@ const Checkout = () => {
 
   const payHandler = () => {
     //Cosas que hacer
-    //hacer un npm install ya que agregue nuevas dependecias
+    //hacer un npm install ya que agregue nuevas dependecias - done
     //Agregar un este handler al btn de pagar
     //Realizar un post a order/save
     //Para eso creo que hay que mandar un post a client/save
@@ -51,17 +51,14 @@ const Checkout = () => {
         address: direccion,
         email: email,
         firstName: nombre,
-      }
-    }
+      },
+    };
 
-
-
-    axios.post('http://localhost:8181/api/order/save',)
-
+    axios.post("http://localhost:8181/api/order/save");
 
     //Reseteando carrito
     dispatch(cartActions.reset());
-  }
+  };
 
   return (
     <>
@@ -145,7 +142,9 @@ const Checkout = () => {
         <SplitterPanel>
           <div style={{ paddingLeft: "2rem" }}>
             <h5 style={{ marginBottom: "2rem" }}>Total a Pagar</h5>
-            <h5 style={{ marginBottom: "2rem"}}>{formatCurrency(totalOrden)}</h5>
+            <h5 style={{ marginBottom: "2rem" }}>
+              {formatCurrency(totalOrden)}
+            </h5>
 
             <Divider />
 
