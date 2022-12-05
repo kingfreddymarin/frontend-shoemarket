@@ -55,83 +55,11 @@ const Checkout = () => {
   );
 
   const payHandler = () => {
-    const orderService = new OrderService();
-    const order = {
-      client: {
-        address: direccion,
-        email: email,
-        firstName: nombre,
-        lastName: apellido,
-        secondName: segundoNombre,
-        telephone: telefono,
-      },
-      detalles: carrito.map((product) => {
-        return {
-          count: product.quantity,
-          idProducto: product.id,
-        };
-      }),
-      numbercard: numTarjeta,
-      paymentMethod: "CASH",
-      total: totalOrden,
-    };
-    try {
-      orderService.checkout(order);
-      for (let product of products) {
-        for (let item of order.detalles) {
-          if (product.id === item.idProducto) {
-            let productToUpdate = {
-              ...product,
-              quantity: product.quantity - item.count,
-            };
-            productService.save(productToUpdate);
-          }
-        }
-      }
-      //template for emailjs
-      const templateParams = {
-        name: order.client.firstName,
-        price: order.total,
-        qty: order.detalles.length,
-        email: order.client.email,
-        location: order.client.address,
-      };
-      emailjs
-        .send(
-          "service_bxrt7ga",
-          "template_qw8m1mj",
-          templateParams,
-          "RaU1e-BoQmPLJe1W2"
-        )
-        .then(
-          (result) => {
-            console.log(result.text);
-          },
-          (error) => {
-            console.log(error.text);
-          }
-        );
-      //Reseteando carrito
-      dispatch(cartActions.reset());
-      setAlert({
-        state: true,
-        type: "success",
-        message: "Tu compra ha sido exitosa, revisa tu email para revisar el correo de confirmacion!",
-      })
-      setTimeout(() => {
-        setAlert({
-          state: false,
-          type: "",
-          message: "",
-        })
-        navigate("/");
-      }, 5000);
-      //redirect to home
-    } catch (error) {
+    if (!direccion || !email || !nombre || !apellido || !segundoNombre || !telefono || !carrito || !numTarjeta) {
       setAlert({
         state: true,
         type: "warning",
-        message: "Ha ocurrido un error al procesar la orden, intentalo mas tarde",
+        message: "Hay espacios en blanco en el formulario",
       })
       setTimeout(() => {
         setAlert({
@@ -140,9 +68,95 @@ const Checkout = () => {
           message: "",
         })
       }, 5000);
-      console.error(error);
+    } else {
+      const orderService = new OrderService();
+      const order = {
+        client: {
+          address: direccion,
+          email: email,
+          firstName: nombre,
+          lastName: apellido,
+          secondName: segundoNombre,
+          telephone: telefono,
+        },
+        detalles: carrito.map((product) => {
+          return {
+            count: product.quantity,
+            idProducto: product.id,
+          };
+        }),
+        numbercard: numTarjeta,
+        paymentMethod: "CASH",
+        total: totalOrden,
+      };
+      try {
+        orderService.checkout(order);
+        for (let product of products) {
+          for (let item of order.detalles) {
+            if (product.id === item.idProducto) {
+              let productToUpdate = {
+                ...product,
+                quantity: product.quantity - item.count,
+              };
+              productService.save(productToUpdate);
+            }
+          }
+        }
+        //template for emailjs
+        const templateParams = {
+          name: order.client.firstName,
+          price: order.total,
+          qty: order.detalles.length,
+          email: order.client.email,
+          location: order.client.address,
+        };
+        emailjs
+          .send(
+            "service_bxrt7ga",
+            "template_qw8m1mj",
+            templateParams,
+            "RaU1e-BoQmPLJe1W2"
+          )
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
+        //Reseteando carrito
+        setAlert({
+          state: true,
+          type: "success",
+          message: "Tu compra ha sido exitosa, revisa tu email para revisar el correo de confirmacion!",
+        })
+        setTimeout(() => {
+          setAlert({
+            state: false,
+            type: "",
+            message: "",
+          })
+          dispatch(cartActions.reset());
+          navigate("/");
+        }, 5000);
+        //redirect to home
+      } catch (error) {
+        setAlert({
+          state: true,
+          type: "warning",
+          message: "Ha ocurrido un error al procesar la orden, intentalo mas tarde",
+        })
+        setTimeout(() => {
+          setAlert({
+            state: false,
+            type: "",
+            message: "",
+          })
+        }, 5000);
+        console.error(error);
+      }
     }
-
   };
 
   return (
