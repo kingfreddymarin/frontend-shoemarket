@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+
+// import axios from "axios";
 import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
 import { Splitter, SplitterPanel } from "primereact/splitter";
 import { InputText } from "primereact/inputtext";
 import Header from "../SharedComponents/Header";
 import { OrderService } from "../service/OrderService";
+import { ProductService } from "../service/ProductService";
+
 import { cartActions } from "../../store";
 
 const Checkout = () => {
   const [nombre, setNombre] = useState("");
+  const [segundoNombre, setSegundoNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [direccion, setDireccion] = useState("");
-  const [ciudad, setCiudad] = useState("");
-  const [departamento, setDepartamento] = useState("");
-  const [codigoPostal, setCodigoPostal] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const navigate = useNavigate();
+  // const [alert, setAlert] = useState({
+  //   state: null,
+  //   message: "",
+  // });
 
   const [titular, setTitular] = useState("");
   const [numTarjeta, setNumTarjeta] = useState("");
   const [expiracion, setExpiracion] = useState("");
   const [cvc, setCvc] = useState("");
+  const [products, setProducts] = useState(null);
+
+  const productService = new ProductService();
+
+  useEffect(() => {
+    productService.getAll().then((data) => setProducts(data));
+  }, []);
 
   const formatCurrency = (value) => {
     return value.toLocaleString("en-US", {
@@ -39,28 +55,68 @@ const Checkout = () => {
 
   const payHandler = () => {
     const orderService = new OrderService();
-    // orderService.save(dataToSend)
-    //Cosas que hacer
-    //DONE - hacer un npm install ya que agregue nuevas dependecias - done
-    //DONE - Agregar un este handler al btn de pagar
-    //Realizar un post a order/save
-    //Para eso creo que hay que mandar un post a client/save
-    //Enviar correo al comprador con los detalles de la orden con EmailJs - https://www.emailjs.com/docs/examples/reactjs/ - Tenes que crear una cuenta - Sino le entendes ver tutorial
-    //navegar al home
-    //reiniciar el carrito y totalItems en redux
-
-    const dataToSend = {
+    const order = {
       client: {
         address: direccion,
         email: email,
         firstName: nombre,
+        lastName: apellido,
+        secondName: segundoNombre,
+        telephone: telefono,
       },
+      detalles: carrito.map((product) => {
+        return {
+          count: product.quantity,
+          idProducto: product.id,
+        };
+      }),
+      numbercard: numTarjeta,
+      paymentMethod: "CASH",
+      total: totalOrden,
     };
-
-    axios.post("http://localhost:8181/api/order/save");
-
+    try {
+      orderService.checkout(order);
+      for (let product of products) {
+        for (let item of order.detalles) {
+          if (product.id === item.idProducto) {
+            let productToUpdate = {
+              ...product,
+              quantity: product.quantity - item.count,
+            };
+            productService.save(productToUpdate);
+          }
+        }
+      }
+      //template for emailjs
+      const templateParams = {
+        name: order.client.firstName,
+        price: order.total,
+        qty: order.detalles.length,
+        email: order.client.email,
+        location: order.client.address
+      };
+      emailjs
+        .send(
+          "service_bxrt7ga",
+          "template_qw8m1mj",
+          templateParams,
+          "RaU1e-BoQmPLJe1W2"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
+    } catch (error) {
+      console.error(error);
+    }
     //Reseteando carrito
-    // dispatch(cartActions.reset());
+    dispatch(cartActions.reset());
+    //redirect to home
+    navigate("/");
   };
 
   return (
@@ -84,6 +140,15 @@ const Checkout = () => {
           </span>
           <span className="p-float-label" style={{ marginBottom: "2rem" }}>
             <InputText
+              id="secondName"
+              value={segundoNombre}
+              required
+              onChange={(e) => setSegundoNombre(e.target.value)}
+            />
+            <label htmlFor="name">Segundo nombre </label>
+          </span>
+          <span className="p-float-label" style={{ marginBottom: "2rem" }}>
+            <InputText
               id="lastn"
               value={apellido}
               required
@@ -101,6 +166,16 @@ const Checkout = () => {
             />
             <label htmlFor="correo">Correo Electrónico</label>
           </span>
+          <span className="p-float-label" style={{ marginBottom: "2rem" }}>
+            <InputText
+              id="telefono"
+              value={telefono}
+              required
+              type="number"
+              onChange={(e) => setTelefono(e.target.value)}
+            />
+            <label htmlFor="correo">Telefono</label>
+          </span>
 
           <Divider />
 
@@ -113,33 +188,6 @@ const Checkout = () => {
               onChange={(e) => setDireccion(e.target.value)}
             />
             <label htmlFor="direcc">Dirección</label>
-          </span>
-          <span className="p-float-label" style={{ marginBottom: "2rem" }}>
-            <InputText
-              id="ciudad"
-              value={ciudad}
-              required
-              onChange={(e) => setCiudad(e.target.value)}
-            />
-            <label htmlFor="ciudad">Ciudad</label>
-          </span>
-          <span className="p-float-label" style={{ marginBottom: "2rem" }}>
-            <InputText
-              id="depart"
-              value={departamento}
-              required
-              onChange={(e) => setDepartamento(e.target.value)}
-            />
-            <label htmlFor="depart">Departamento</label>
-          </span>
-          <span className="p-float-label" style={{ marginBottom: "2rem" }}>
-            <InputText
-              id="codPostal"
-              value={codigoPostal}
-              required
-              onChange={(e) => setCodigoPostal(e.target.value)}
-            />
-            <label htmlFor="codPostal">Código Postal</label>
           </span>
         </SplitterPanel>
         <SplitterPanel>
@@ -193,6 +241,7 @@ const Checkout = () => {
               label="Pagar"
               icon="pi pi-check"
               iconPos="right"
+              type="submit"
             />
           </div>
         </SplitterPanel>

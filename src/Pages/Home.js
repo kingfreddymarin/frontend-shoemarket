@@ -27,20 +27,6 @@ const Home = () => {
   const [sortField, setSortField] = useState(null);
   const [show, setShow] = useState(false);
   const [current, setCurrent] = useState(null);
-  const [cart, setCart] = useState(getLocalStorage());
-
-  //-----------------Ejemplo Redux-------------------------
-  // const dispatch = useDispatch(); //Inicializamos el hook
-  // dispatch(
-  //   cartActions.addProduct({
-  //     id: "24323",
-  //     quantity: 1,
-  //     name: "Airforce One",
-  //     image: "airforce.jpg",
-  //   })
-  // );
-
-  // const itemCarritos = useSelector((state) => state.cart.totalItems);
 
   const sortOptions = [
     { label: "De alto a bajo precio", value: "!price" },
@@ -51,9 +37,7 @@ const Home = () => {
 
   useEffect(() => {
     productService.getAll().then((data) => setProducts(data));
-    localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(cart);
-  }, [cart]); // eslint-disable-line react-hooks/exhaustive-deps
+  }); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSortChange = (event) => {
     const value = event.value;
@@ -90,9 +74,6 @@ const Home = () => {
             />
             <div className="product-list-detail">
               <div className="product-name">{data.name}</div>
-              {/* <div className="product-description">{data.description}</div> */}
-              {/* <Rating value={data.rating} readOnly cancel={false}></Rating> */}
-              {/* <i className="pi pi-tag product-category-icon"></i><span className="product-category">{data.category}</span> */}
             </div>
             <div className="product-list-action">
               <span className="product-price">${data.price}</span>
@@ -104,8 +85,6 @@ const Home = () => {
                   setCurrent(data);
                 }}
               ></Button>
-
-              {/* <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span> */}
             </div>
           </div>
         </div>
@@ -134,12 +113,9 @@ const Home = () => {
               <img
                 height={"300"}
                 src={`Imagen/${data.imagen}`}
-                /*onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'}*/ alt={
-                  data.name
-                }
+                alt={data.name}
               />
               <div className="product-name">{data.name}</div>
-              {/* <div className="product-description">{data.description}</div> */}
             </div>
             <div className="product-grid-item-bottom">
               {data.price ? (
@@ -212,8 +188,6 @@ const Home = () => {
               sortField={sortField}
             />
           )}
-
-          {/* <Link to={`/product/${products.product.id}`}>More Details</Link> */}
         </div>
       </div>
     </>

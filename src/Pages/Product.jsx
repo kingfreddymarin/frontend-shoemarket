@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { cartActions } from '../store';
-import { Button } from "primereact/button";
+// import { Button } from "primereact/button";
 
 
 const Product = ({ closeModal, data }) => {
@@ -18,7 +18,7 @@ const Product = ({ closeModal, data }) => {
          image: data.imagen,
          precio: data.price
       }));
-      navigate('/cart')
+      closeModal(false);
    }
 
    return (
