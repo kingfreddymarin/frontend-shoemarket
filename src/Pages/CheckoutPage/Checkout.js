@@ -163,7 +163,7 @@ const Checkout = () => {
     <>
       {alert.state && (
         <div className={`alert ${alert.type}`}>
-          <h4>{alert.message}</h4>
+          <h6>{alert.message}</h6>
         </div>
       )}
       <Header />
