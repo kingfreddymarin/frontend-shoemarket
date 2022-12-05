@@ -22,10 +22,11 @@ const Checkout = () => {
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
   const navigate = useNavigate();
-  // const [alert, setAlert] = useState({
-  //   state: null,
-  //   message: "",
-  // });
+  const [alert, setAlert] = useState({
+    state: false,
+    type: "",
+    message: "",
+  });
 
   const [titular, setTitular] = useState("");
   const [numTarjeta, setNumTarjeta] = useState("");
@@ -93,7 +94,7 @@ const Checkout = () => {
         price: order.total,
         qty: order.detalles.length,
         email: order.client.email,
-        location: order.client.address
+        location: order.client.address,
       };
       emailjs
         .send(
@@ -110,17 +111,47 @@ const Checkout = () => {
             console.log(error.text);
           }
         );
+      //Reseteando carrito
+      dispatch(cartActions.reset());
+      setAlert({
+        state: true,
+        type: "success",
+        message: "Tu compra ha sido exitosa, revisa tu email para revisar el correo de confirmacion!",
+      })
+      setTimeout(() => {
+        setAlert({
+          state: false,
+          type: "",
+          message: "",
+        })
+        navigate("/");
+      }, 5000);
+      //redirect to home
     } catch (error) {
+      setAlert({
+        state: true,
+        type: "warning",
+        message: "Ha ocurrido un error al procesar la orden, intentalo mas tarde",
+      })
+      setTimeout(() => {
+        setAlert({
+          state: false,
+          type: "",
+          message: "",
+        })
+      }, 5000);
       console.error(error);
     }
-    //Reseteando carrito
-    dispatch(cartActions.reset());
-    //redirect to home
-    navigate("/");
+
   };
 
   return (
     <>
+      {alert.state && (
+        <div className={`alert ${alert.type}`}>
+          <h1>{alert.message}</h1>
+        </div>
+      )}
       <Header />
       <Splitter
         style={{ padding: "5rem" }}
