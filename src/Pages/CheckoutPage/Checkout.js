@@ -9,8 +9,8 @@ import { Button } from "primereact/button";
 import { Splitter, SplitterPanel } from "primereact/splitter";
 import { InputText } from "primereact/inputtext";
 import Header from "../SharedComponents/Header";
-import { OrderService } from "../service/OrderService";
-import { ProductService } from "../service/ProductService";
+import { OrderService } from "../../service/OrderService";
+import { ProductService } from "../../service/ProductService";
 
 import { cartActions } from "../../store";
 
@@ -163,7 +163,7 @@ const Checkout = () => {
     <>
       {alert.state && (
         <div className={`alert ${alert.type}`}>
-          <h1>{alert.message}</h1>
+          <h4>{alert.message}</h4>
         </div>
       )}
       <Header />

@@ -48,15 +48,6 @@ const Cart = () => {
     </div>
   );
 
-  /*
-         id: data.id,
-         quantity: 1,
-         name: data.name,
-         image: data.imagen,
-         precio: data.price
-    */
-
-
   return (
     <>
       <Header />

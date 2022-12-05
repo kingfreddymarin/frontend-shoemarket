@@ -8,11 +8,12 @@ body {
   width: 100vw;
   justify-content: center;
   align-items: center;
+  padding: 2em;
 }
-.warning{
+.warning {
   background-color: rgb(255, 231, 78);
 }
-.success{
+.success {
   color: white;
   background-color: rgb(0, 189, 94);
 }

@@ -4,20 +4,11 @@ import React, { useState, useEffect } from "react";
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
-import { ProductService } from "./service/ProductService";
+import { ProductService } from "../service/ProductService";
 import Header from "./SharedComponents/Header";
 import { cartActions } from "../store"; //Importamos las acciones
 import "../styles/DataViewDemo.css";
 import Product from "./Product";
-
-const getLocalStorage = () => {
-  let cart = localStorage.getItem("cart");
-  if (cart) {
-    return JSON.parse(localStorage.getItem("cart"));
-  } else {
-    return [];
-  }
-};
 
 const Home = () => {
   const [products, setProducts] = useState(null);
