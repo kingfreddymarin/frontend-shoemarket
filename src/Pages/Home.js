@@ -68,14 +68,6 @@ const Home = () => {
             </div>
             <div className="product-list-action">
               <span className="product-price">${data.price}</span>
-              <Button
-                label="Detalles"
-                disabled={data.inventoryStatus === "OUTOFSTOCK"}
-                onClick={() => {
-                  setShow(true);
-                  setCurrent(data);
-                }}
-              ></Button>
             </div>
           </div>
         </div>
@@ -114,14 +106,6 @@ const Home = () => {
               ) : (
                 <span className="product-price">$0.00 </span>
               )}
-              <Button
-                label="Detalles"
-                disabled={data.quantity == 0}
-                onClick={() => {
-                  setShow(true);
-                  setCurrent(data);
-                }}
-              ></Button>
             </div>
           </div>
         </div>

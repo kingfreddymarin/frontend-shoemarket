@@ -161,12 +161,12 @@ const Checkout = () => {
 
   return (
     <>
+      <Header />
       {alert.state && (
         <div className={`alert ${alert.type}`}>
           <h6>{alert.message}</h6>
         </div>
       )}
-      <Header />
       <Splitter
         style={{ padding: "5rem" }}
         contentEditable="false"
